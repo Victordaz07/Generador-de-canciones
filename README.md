@@ -63,11 +63,13 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       un token de Vercel CLI)
 - [x] 2. Auth con contraseña única (`proxy.ts` + `/api/login` + `/api/logout`)
 - [x] 3. `lib/sgm-creative-rules.ts` con las reglas creativas
-- [x] 4. Endpoint + UI de generación de letras (Claude API) — código
-      verificado con una llamada real a la API de Anthropic (llegó
-      correctamente, auth y manejo de errores funcionan); la respuesta
-      completa con contenido generado queda pendiente de confirmar
-      cuando la cuenta de `ANTHROPIC_API_KEY` tenga crédito activo
+- [x] 4. Endpoint + UI de generación de letras (Claude API) — **verificado
+      de punta a punta con una llamada real** (personaje "Pedro, Echa La
+      Red", Lucas 5:1-11): letra completa con tags de estructura, título
+      que nunca menciona al personaje, identidad sonora coherente con la
+      guía del Nuevo Testamento (Organic House / Indie Folk), prompt de
+      Suno siguiendo las reglas de producción, prompt de portada sin
+      cruces/halos/vitral, y checklist doctrinal respondido
 - [x] 5. Endpoint + UI de generación de canción (Apiframe) con polling —
       **sin verificar con una llamada real**: `apiframe.pro` está
       bloqueado por la política de red de este entorno de desarrollo, así
