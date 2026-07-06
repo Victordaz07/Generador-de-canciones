@@ -1,20 +1,22 @@
 import "server-only";
 
 /**
- * Cliente mínimo para la API de Apiframe (proxy de Suno).
+ * Cliente mínimo para la API de Apiframe v2 (proxy de Suno).
  *
- * Endpoint, formato del header de auth y forma de la respuesta
- * confirmados contra el SDK oficial (github.com/APIFRAME-PRO/apiframe-python)
- * y ejemplos públicos reales de integración con /suno-imagine, ya que
- * docs.apiframe.pro sigue bloqueado en el entorno de desarrollo donde se
- * escribió este archivo. Si Apiframe cambia su contrato, este es el
- * único lugar que hay que tocar.
+ * Confirmado contra el SDK oficial (github.com/apiframe-ai/apiframe-nodejs-sdk,
+ * paquete @apiframe-ai/sdk@2) tras un 400 real en producción que reveló
+ * que la key de Victor (prefijo `afk_`) es de Apiframe v2, no v1 —
+ * docs.apiframe.pro / api.apiframe.pro son la API v1 anterior y no
+ * aplican. api.apiframe.ai (v2) sigue bloqueado en este entorno de
+ * desarrollo, así que la forma exacta de result.tracks[] (nombres de
+ * campo para audio/imagen) no se pudo confirmar 100% — si `fetchSongStatus`
+ * no encuentra las URLs, revisa el log de Vercel (imprime el cuerpo
+ * crudo de la respuesta) y ajusta el mapeo de abajo.
  */
 
-const APIFRAME_BASE_URL = "https://api.apiframe.pro";
-const GENERATE_PATH = "/suno-imagine";
-const FETCH_PATH = "/fetch";
-const SUNO_MODEL = "V5";
+const APIFRAME_BASE_URL = "https://api.apiframe.ai";
+const GENERATE_PATH = "/v2/music/generate";
+const SUNO_MODEL_VERSION = "V5";
 
 function getApiKey() {
   const key = process.env.APIFRAME_API_KEY;
@@ -56,25 +58,29 @@ export async function requestSongGeneration(params: GenerateSongParams) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: getApiKey(),
+      "X-API-Key": getApiKey(),
     },
     body: JSON.stringify({
+      model: "suno",
       prompt: params.lyrics,
-      model: SUNO_MODEL,
-      tags: params.stylePrompt,
-      title: params.title,
-      make_instrumental: params.instrumental ?? false,
+      sunoParams: {
+        custom_mode: true,
+        instrumental: params.instrumental ?? false,
+        model_version: SUNO_MODEL_VERSION,
+        title: params.title,
+        style: params.stylePrompt,
+      },
     }),
   });
 
   const data = await parseApiframeResponse(res);
 
-  const taskId = data?.task_id as string;
-  if (!taskId) {
-    throw new Error("Apiframe no devolvió un task_id.");
+  const jobId = data?.jobId as string;
+  if (!jobId) {
+    throw new Error("Apiframe no devolvió un jobId.");
   }
 
-  return { taskId: String(taskId) };
+  return { taskId: String(jobId) };
 }
 
 export interface SongClip {
@@ -90,35 +96,39 @@ export interface SongStatus {
 }
 
 export async function fetchSongStatus(taskId: string): Promise<SongStatus> {
-  const res = await fetch(`${APIFRAME_BASE_URL}${FETCH_PATH}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: getApiKey(),
-    },
-    body: JSON.stringify({ task_id: taskId }),
+  const res = await fetch(`${APIFRAME_BASE_URL}/v2/jobs/${encodeURIComponent(taskId)}`, {
+    headers: { "X-API-Key": getApiKey() },
   });
 
   const data = await parseApiframeResponse(res);
 
-  const rawStatus = String(data?.status ?? "pending").toLowerCase();
+  const rawStatus = String(data?.status ?? "queued").toLowerCase();
   const status: SongStatus["status"] =
-    rawStatus === "finished" || rawStatus === "completed"
+    rawStatus === "completed"
       ? "completed"
       : rawStatus === "failed" || rawStatus === "error"
         ? "failed"
-        : rawStatus === "processing"
+        : rawStatus === "progress" || rawStatus === "processing" || rawStatus === "in_progress"
           ? "processing"
           : "pending";
 
-  const rawSongs = (data?.songs as unknown[]) ?? [];
-  const clips: SongClip[] = rawSongs.map((song, index) => {
-    const s = song as Record<string, unknown>;
+  const result = data?.result as Record<string, unknown> | undefined;
+  const rawTracks = (result?.tracks as unknown[]) ?? [];
+
+  if (status === "completed" && rawTracks.length === 0) {
+    console.error(
+      `Apiframe: job completado pero sin result.tracks reconocible. Cuerpo:`,
+      JSON.stringify(data).slice(0, 1000)
+    );
+  }
+
+  const clips: SongClip[] = rawTracks.map((track, index) => {
+    const t = track as Record<string, unknown>;
     return {
-      id: String(s.id ?? index),
-      title: String(s.title ?? ""),
-      audioUrl: (s.audio_url as string) ?? null,
-      imageUrl: (s.image_url as string) ?? null,
+      id: String(t.id ?? index),
+      title: String(t.title ?? ""),
+      audioUrl: (t.audio_url as string) ?? (t.audioUrl as string) ?? null,
+      imageUrl: (t.image_url as string) ?? (t.imageUrl as string) ?? null,
     };
   });
 

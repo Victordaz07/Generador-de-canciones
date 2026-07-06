@@ -71,15 +71,21 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       Suno siguiendo las reglas de producción, prompt de portada sin
       cruces/halos/vitral, y checklist doctrinal respondido
 - [x] 5. Endpoint + UI de generación de canción (Apiframe) con polling —
-      probado contra la API real en producción (Vercel), corrigiendo dos
-      bugs que solo aparecieron ahí (ya que `apiframe.pro` sigue
-      bloqueado en este entorno de desarrollo): el endpoint correcto es
-      `/suno-imagine` (no `/custom_generate`), el header de auth es
-      `Authorization: <key>` sin prefijo "Bearer", y el polling de
-      estado es `POST /fetch` con `{"task_id": ...}` en el body (no GET
-      con query param). Confirmado contra el SDK oficial
-      (`APIFRAME-PRO/apiframe-python`) y ejemplos públicos reales de
-      integración con Suno vía Apiframe
+      la key de Victor es de **Apiframe v2** (prefijo `afk_`), API
+      completamente distinta a v1 (`apiframe.pro`, que era lo que
+      `lib/apiframe.ts` asumía originalmente por convención pública). Ya
+      corregido a v2: base URL `api.apiframe.ai`, endpoint
+      `POST /v2/music/generate` con `model: "suno"` +
+      `sunoParams: { custom_mode: true, ... }`, header
+      `X-API-Key: <key>` (no "Bearer"), y estado vía
+      `GET /v2/jobs/{jobId}`. Confirmado contra el SDK oficial
+      (`apiframe-ai/apiframe-nodejs-sdk`, `openapi.json`). **Pendiente
+      de confirmar 100%**: los nombres de campo dentro de
+      `result.tracks[]` (audio/imagen) — `api.apiframe.ai` sigue
+      bloqueado en este entorno, así que si el player no muestra audio
+      tras un job `completed`, revisa el log de Vercel (queda impreso
+      el cuerpo crudo de la respuesta) y ajusta `fetchSongStatus` en
+      `lib/apiframe.ts`
 - [x] 6. Endpoint + UI de portada (DALL-E 3, `lib/images.ts`) —
       **tampoco verificado con una llamada real**: `api.openai.com`
       está igual de bloqueado en este entorno de desarrollo. Usa
