@@ -28,7 +28,7 @@ Copia `.env.example` a `.env.local` y completa:
 ```
 ANTHROPIC_API_KEY=
 APIFRAME_API_KEY=
-IMAGE_API_KEY=
+IMAGE_API_KEY=      # API key de OpenAI (portadas vía DALL-E 3)
 SITE_PASSWORD=
 ```
 
@@ -82,6 +82,14 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       verificó localmente el manejo de errores (falta de API key,
       body inválido, taskId faltante) con llamadas reales a nuestros
       propios endpoints
+- [x] 6. Endpoint + UI de portada (DALL-E 3, `lib/images.ts`) —
+      **tampoco verificado con una llamada real**: `api.openai.com`
+      está igual de bloqueado en este entorno de desarrollo. Usa
+      `IMAGE_API_KEY` como key de OpenAI y pide una imagen 1024x1024 en
+      base64 (`response_format: "b64_json"`), mostrada inline con botón
+      de descarga. Verifica localmente o en Vercel con tu key real. Sí
+      se verificó el manejo de errores propios (falta de API key,
+      prompt vacío) con llamadas reales
 - [ ] 6. Endpoint + UI de portada
 - [ ] 7. Panel de metadata y exportación
 - [ ] 8. Pulido de UI/UX

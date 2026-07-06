@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { SongProposal } from "@/lib/types";
 import { SongGenerator } from "@/components/SongGenerator";
+import { CoverGenerator } from "@/components/CoverGenerator";
 
 const LANGUAGES = ["Español", "English"];
 
@@ -231,6 +232,8 @@ export function LyricsGenerator() {
           title={proposal.title_en}
         />
       )}
+
+      {proposal && <CoverGenerator prompt={proposal.cover_prompt} />}
     </div>
   );
 }
