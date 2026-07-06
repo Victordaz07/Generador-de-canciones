@@ -86,6 +86,13 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json(
+      { error: "ANTHROPIC_API_KEY no está configurada en el servidor." },
+      { status: 502 }
+    );
+  }
+
   const language = body.language?.trim() || "Español";
   const scripture = body.scripture?.trim();
   const notes = body.notes?.trim();
