@@ -106,3 +106,14 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       infinito en una sola pantalla. Verificado en navegador real
       (Playwright): cada sección colapsa/expande correctamente y
       conserva su contenido
+- [x] 9. Portada con título y logo compuestos por código
+      (`lib/cover-compose.ts`) — la IA (`gpt-image-1`) genera solo la
+      escena vertical (1024x1536, sin texto ni logo — reforzado en
+      `sgm-creative-rules.ts`); el título de la canción (tipografía
+      Cinzel Bold dorada, con ajuste automático de tamaño y salto de
+      línea según el largo del texto) y el logo real de Seeker Gospel
+      Music (`assets/logo-sgm.png`) se superponen con `sharp` de forma
+      exacta y consistente en cada portada, nunca alucinados por el
+      modelo. Probado localmente generando portadas sintéticas con
+      títulos corto/largo/con acentos (ñ, í) — el texto ajusta tamaño y
+      salto de línea correctamente y nunca se desborda

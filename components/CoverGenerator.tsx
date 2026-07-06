@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface CoverGeneratorProps {
   prompt: string;
+  title: string;
 }
 
-export function CoverGenerator({ prompt }: CoverGeneratorProps) {
+export function CoverGenerator({ prompt, title }: CoverGeneratorProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export function CoverGenerator({ prompt }: CoverGeneratorProps) {
       const res = await fetch("/api/generate-cover", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, title }),
       });
       const data = await res.json();
       if (!res.ok) {

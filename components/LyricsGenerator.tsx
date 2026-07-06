@@ -242,7 +242,7 @@ export function LyricsGenerator() {
 
       {proposal && (
         <CollapsibleSection title="4. Generar portada">
-          <CoverGenerator prompt={proposal.cover_prompt} />
+          <CoverGenerator prompt={proposal.cover_prompt} title={proposal.title_es} />
         </CollapsibleSection>
       )}
 

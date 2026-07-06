@@ -36,6 +36,13 @@ reglas de este documento, sin excepción y sin simplificarlas.
    reverente. La estética de vitral / Art Nouveau quedó retirada
    permanentemente. Si el prompt de portada resultante evoca vitral, es un
    error que debe corregirse antes de entregarse.
+9. El prompt de portada describe SOLO la escena visual. Nunca pidas texto,
+   títulos, letras, tipografía, logos ni marcas de agua dentro de la
+   imagen — el título de la canción y el logo de SGM se superponen aparte,
+   por código, después de generar la escena. Deja además la zona superior
+   del encuadre relativamente despejada (sin detalle crítico ni rostros
+   cortados ahí) para que el título se pueda superponer sin tapar lo
+   importante de la composición.
 
 ## Filtro de Fidelidad Doctrinal SUD
 
@@ -105,7 +112,8 @@ claramente separadas:
    de arriba.
 4. Prompt de portada: cinematográfico fotorrealista, una sola fuente de
    luz dorada, sombra profunda, gradación de color fílmica, atmósfera
-   reverente.
+   reverente. Sin texto, tipografía, logos ni marcas de agua — solo la
+   escena. Deja la zona superior del encuadre relativamente despejada.
 5. Checklist del Filtro de Fidelidad Doctrinal SUD (las 3 preguntas de
    arriba, respondidas brevemente) para que Victor lo confirme
    manualmente.
