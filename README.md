@@ -112,8 +112,25 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       `sgm-creative-rules.ts`); el título de la canción (tipografía
       Cinzel Bold dorada, con ajuste automático de tamaño y salto de
       línea según el largo del texto) y el logo real de Seeker Gospel
-      Music (`assets/logo-sgm.png`) se superponen con `sharp` de forma
-      exacta y consistente en cada portada, nunca alucinados por el
-      modelo. Probado localmente generando portadas sintéticas con
-      títulos corto/largo/con acentos (ñ, í) — el texto ajusta tamaño y
-      salto de línea correctamente y nunca se desborda
+      Music (`assets/logo-sgm.png`) se superponen con `sharp` +
+      `@napi-rs/canvas` de forma exacta y consistente en cada portada,
+      nunca alucinados por el modelo. El renderizado de texto usa
+      `@napi-rs/canvas` (no SVG+sharp/resvg) porque el contenedor
+      serverless de Vercel no trae fuentes del sistema instaladas;
+      `@napi-rs/canvas` registra la fuente directamente desde el
+      archivo (`GlobalFonts.registerFromPath`), sin depender de
+      fontconfig. Requiere `serverExternalPackages: ["@napi-rs/canvas"]`
+      en `next.config.ts` (incluye un binario nativo `.node` que
+      Turbopack no sabe empaquetar). **Bug real de producción
+      corregido**: la portada mostraba el logo pero no el título — la
+      fuente (`assets/fonts/Cinzel-Bold.ttf`) se había extraído
+      originalmente del subset equivocado de `@fontsource/cinzel`
+      (`latin-ext`, que solo tiene glyphs de acentos extendidos como
+      Ā/Ć/Ě, no el alfabeto latino básico A-Z ni acentos españoles como
+      Ñ/Í) — por eso solo la letra "A" se veía y el resto salía como
+      cajas vacías. Corregido usando el subset correcto (`latin`, que
+      sí incluye A-Z y Ñ/Á/É/Í/Ó/Ú). Probado localmente generando
+      portadas sintéticas con títulos corto/largo/con acentos (ñ, í) —
+      el texto ajusta tamaño y salto de línea correctamente, nunca se
+      desborda, y todos los glyphs (incluyendo acentos) se renderizan
+      correctamente
