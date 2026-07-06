@@ -88,11 +88,7 @@ export function SongGenerator({ lyrics, stylePrompt, title }: SongGeneratorProps
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
-      <h2 className="text-lg font-semibold text-black dark:text-zinc-50">
-        3. Generar canción
-      </h2>
-
+    <>
       <p className="rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-950 dark:text-amber-200">
         Si necesitas editar solo un fragmento de esta canción ya generada, usa{" "}
         <strong>Replace Section</strong> directamente en{" "}
@@ -147,6 +143,6 @@ export function SongGenerator({ lyrics, stylePrompt, title }: SongGeneratorProps
           ))}
         </div>
       )}
-    </section>
+    </>
   );
 }

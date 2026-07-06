@@ -34,11 +34,7 @@ export function CoverGenerator({ prompt }: CoverGeneratorProps) {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
-      <h2 className="text-lg font-semibold text-black dark:text-zinc-50">
-        4. Generar portada
-      </h2>
-
+    <>
       {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       <button
@@ -67,6 +63,6 @@ export function CoverGenerator({ prompt }: CoverGeneratorProps) {
           </a>
         </div>
       )}
-    </section>
+    </>
   );
 }

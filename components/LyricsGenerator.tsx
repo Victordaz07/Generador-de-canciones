@@ -5,6 +5,7 @@ import type { SongProposal } from "@/lib/types";
 import { SongGenerator } from "@/components/SongGenerator";
 import { CoverGenerator } from "@/components/CoverGenerator";
 import { MetadataPanel } from "@/components/MetadataPanel";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 
 const LANGUAGES = ["Español", "English"];
 
@@ -49,11 +50,7 @@ export function LyricsGenerator() {
 
   return (
     <div className="flex w-full max-w-3xl flex-col gap-8 px-6 py-10">
-      <section className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
-        <h2 className="text-lg font-semibold text-black dark:text-zinc-50">
-          1. Idea inicial
-        </h2>
-
+      <CollapsibleSection title="1. Idea inicial" defaultOpen>
         <div className="flex flex-col gap-1">
           <label className="text-sm text-zinc-700 dark:text-zinc-300">
             Personaje / idea
@@ -116,14 +113,10 @@ export function LyricsGenerator() {
         >
           {loading ? "Generando..." : "Generar propuesta"}
         </button>
-      </section>
+      </CollapsibleSection>
 
       {proposal && (
-        <section className="flex flex-col gap-6 rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
-          <h2 className="text-lg font-semibold text-black dark:text-zinc-50">
-            2. Propuesta de Claude
-          </h2>
-
+        <CollapsibleSection title="2. Propuesta de Claude" defaultOpen>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1">
               <label className="text-sm text-zinc-700 dark:text-zinc-300">
@@ -234,20 +227,30 @@ export function LyricsGenerator() {
               ))}
             </ul>
           </div>
-        </section>
+        </CollapsibleSection>
       )}
 
       {proposal && (
-        <SongGenerator
-          lyrics={proposal.lyrics}
-          stylePrompt={proposal.suno_prompt}
-          title={proposal.title_en}
-        />
+        <CollapsibleSection title="3. Generar canción" defaultOpen>
+          <SongGenerator
+            lyrics={proposal.lyrics}
+            stylePrompt={proposal.suno_prompt}
+            title={proposal.title_en}
+          />
+        </CollapsibleSection>
       )}
 
-      {proposal && <CoverGenerator prompt={proposal.cover_prompt} />}
+      {proposal && (
+        <CollapsibleSection title="4. Generar portada">
+          <CoverGenerator prompt={proposal.cover_prompt} />
+        </CollapsibleSection>
+      )}
 
-      {proposal && <MetadataPanel proposal={proposal} character={character} />}
+      {proposal && (
+        <CollapsibleSection title="5. Metadata y exportación">
+          <MetadataPanel proposal={proposal} character={character} />
+        </CollapsibleSection>
+      )}
     </div>
   );
 }

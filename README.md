@@ -96,4 +96,9 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       muestran correctamente; "Copiar metadata" copia el texto esperado
       al portapapeles y "Descargar letra + style sheet" genera el
       archivo `.md` sin errores de consola
-- [ ] 8. Pulido de UI/UX
+- [x] 8. Pulido de UI/UX — las 5 secciones (idea inicial, propuesta,
+      canción, portada, metadata) son acordeones colapsables
+      (`CollapsibleSection`) en vez de bloques fijos, para evitar scroll
+      infinito en una sola pantalla. Verificado en navegador real
+      (Playwright): cada sección colapsa/expande correctamente y
+      conserva su contenido

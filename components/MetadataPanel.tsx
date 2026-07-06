@@ -85,11 +85,7 @@ export function MetadataPanel({ proposal, character }: MetadataPanelProps) {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
-      <h2 className="text-lg font-semibold text-black dark:text-zinc-50">
-        5. Metadata y exportación
-      </h2>
-
+    <>
       <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
         <div>
           <dt className="text-zinc-500">Título</dt>
@@ -141,6 +137,6 @@ export function MetadataPanel({ proposal, character }: MetadataPanelProps) {
           Descargar letra + style sheet (.md)
         </button>
       </div>
-    </section>
+    </>
   );
 }
