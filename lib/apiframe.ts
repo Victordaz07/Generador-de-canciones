@@ -25,6 +25,26 @@ function getApiKey() {
   return key;
 }
 
+async function parseApiframeResponse(res: Response) {
+  const rawText = await res.text();
+  let data: Record<string, unknown> | null = null;
+  try {
+    data = rawText ? JSON.parse(rawText) : null;
+  } catch {
+    // El cuerpo no es JSON (ej. página de error HTML). rawText queda
+    // disponible abajo para diagnóstico.
+  }
+
+  if (!res.ok) {
+    const detail =
+      (data?.message as string) ?? (data?.error as string) ?? rawText.slice(0, 300);
+    console.error(`Apiframe ${res.status} en ${res.url}:`, rawText.slice(0, 500));
+    throw new Error(`Apiframe respondió ${res.status}: ${detail || "sin cuerpo"}`);
+  }
+
+  return data;
+}
+
 export interface GenerateSongParams {
   lyrics: string;
   stylePrompt: string;
@@ -47,15 +67,9 @@ export async function requestSongGeneration(params: GenerateSongParams) {
     }),
   });
 
-  const data = await res.json().catch(() => null);
+  const data = await parseApiframeResponse(res);
 
-  if (!res.ok) {
-    const message =
-      (data && (data.message || data.error)) || `Apiframe respondió ${res.status}`;
-    throw new Error(message);
-  }
-
-  const taskId = data?.task_id ?? data?.data?.task_id;
+  const taskId = (data?.task_id as string) ?? ((data?.data as Record<string, unknown>)?.task_id as string);
   if (!taskId) {
     throw new Error("Apiframe no devolvió un task_id.");
   }
@@ -83,15 +97,10 @@ export async function fetchSongStatus(taskId: string): Promise<SongStatus> {
     }
   );
 
-  const data = await res.json().catch(() => null);
+  const data = await parseApiframeResponse(res);
+  const nested = data?.data as Record<string, unknown> | undefined;
 
-  if (!res.ok) {
-    const message =
-      (data && (data.message || data.error)) || `Apiframe respondió ${res.status}`;
-    throw new Error(message);
-  }
-
-  const rawStatus = String(data?.status ?? data?.data?.status ?? "pending").toLowerCase();
+  const rawStatus = String(data?.status ?? nested?.status ?? "pending").toLowerCase();
   const status: SongStatus["status"] =
     rawStatus === "completed" || rawStatus === "finished"
       ? "completed"
@@ -101,7 +110,7 @@ export async function fetchSongStatus(taskId: string): Promise<SongStatus> {
           ? "processing"
           : "pending";
 
-  const rawClips: unknown[] = data?.data?.clips ?? data?.clips ?? [];
+  const rawClips: unknown[] = (nested?.clips as unknown[]) ?? (data?.clips as unknown[]) ?? [];
   const clips: SongClip[] = rawClips.map((clip) => {
     const c = clip as Record<string, unknown>;
     return {
