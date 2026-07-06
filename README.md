@@ -86,14 +86,12 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       tras un job `completed`, revisa el log de Vercel (queda impreso
       el cuerpo crudo de la respuesta) y ajusta `fetchSongStatus` en
       `lib/apiframe.ts`
-- [x] 6. Endpoint + UI de portada (DALL-E 3, `lib/images.ts`) —
-      **tampoco verificado con una llamada real**: `api.openai.com`
-      está igual de bloqueado en este entorno de desarrollo. Usa
-      `IMAGE_API_KEY` como key de OpenAI y pide una imagen 1024x1024 en
-      base64 (`response_format: "b64_json"`), mostrada inline con botón
-      de descarga. Verifica localmente o en Vercel con tu key real. Sí
-      se verificó el manejo de errores propios (falta de API key,
-      prompt vacío) con llamadas reales
+- [x] 6. Endpoint + UI de portada (DALL-E 3, `lib/images.ts`) — probado
+      contra la API real en producción (Vercel). OpenAI ya no acepta el
+      parámetro `response_format` en `/v1/images/generations` (error
+      real: "Unknown parameter: 'response_format'"), así que se quitó;
+      ahora se acepta tanto `b64_json` como `url` en la respuesta, lo
+      que venga
 - [x] 7. Panel de metadata y exportación — probado de punta a punta en
       navegador real (Playwright) con la respuesta de Claude simulada:
       título, escritura, género, BPM, signature sound y tags se

@@ -22,7 +22,6 @@ export async function generateCoverImage(prompt: string): Promise<string> {
       prompt,
       n: 1,
       size: "1024x1024",
-      response_format: "b64_json",
     }),
   });
 
@@ -33,10 +32,13 @@ export async function generateCoverImage(prompt: string): Promise<string> {
     throw new Error(message);
   }
 
-  const b64 = data?.data?.[0]?.b64_json;
-  if (!b64) {
-    throw new Error("DALL-E no devolvió una imagen.");
+  const result = data?.data?.[0];
+  if (result?.b64_json) {
+    return `data:image/png;base64,${result.b64_json}`;
+  }
+  if (result?.url) {
+    return result.url as string;
   }
 
-  return `data:image/png;base64,${b64}`;
+  throw new Error("DALL-E no devolvió una imagen.");
 }
