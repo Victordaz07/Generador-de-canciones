@@ -71,19 +71,15 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       Suno siguiendo las reglas de producción, prompt de portada sin
       cruces/halos/vitral, y checklist doctrinal respondido
 - [x] 5. Endpoint + UI de generación de canción (Apiframe) con polling —
-      **sin verificar con una llamada real**: `apiframe.pro` está
-      bloqueado por la política de red de este entorno de desarrollo, así
-      que `lib/apiframe.ts` sigue la convención pública documentada de
-      Apiframe (endpoint `/custom_generate`, campos `prompt`/`tags`/
-      `title`, polling vía `/fetch_task`), pero no se pudo confirmar
-      contra la API real. **Antes de usarlo en producción**, corre
-      `npm run dev` localmente (o después del deploy a Vercel, donde sí
-      hay red completa) con tu `APIFRAME_API_KEY` real y verifica el
-      endpoint y los nombres de campo contra tu dashboard de Apiframe —
-      ajusta las constantes en `lib/apiframe.ts` si difieren. Sí se
-      verificó localmente el manejo de errores (falta de API key,
-      body inválido, taskId faltante) con llamadas reales a nuestros
-      propios endpoints
+      probado contra la API real en producción (Vercel), corrigiendo dos
+      bugs que solo aparecieron ahí (ya que `apiframe.pro` sigue
+      bloqueado en este entorno de desarrollo): el endpoint correcto es
+      `/suno-imagine` (no `/custom_generate`), el header de auth es
+      `Authorization: <key>` sin prefijo "Bearer", y el polling de
+      estado es `POST /fetch` con `{"task_id": ...}` en el body (no GET
+      con query param). Confirmado contra el SDK oficial
+      (`APIFRAME-PRO/apiframe-python`) y ejemplos públicos reales de
+      integración con Suno vía Apiframe
 - [x] 6. Endpoint + UI de portada (DALL-E 3, `lib/images.ts`) —
       **tampoco verificado con una llamada real**: `api.openai.com`
       está igual de bloqueado en este entorno de desarrollo. Usa
