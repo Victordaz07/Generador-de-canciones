@@ -16,7 +16,10 @@ en Vercel.
 - Sin base de datos en v1: estado en cliente durante la sesión;
   histórico en `localStorage` (Vercel KV queda documentado como mejora
   futura, no bloqueante)
-- Auth de contraseña única (`SITE_PASSWORD`), sin NextAuth/Firebase Auth
+- Auth de contraseña única (`SITE_PASSWORD`), sin NextAuth/Firebase Auth.
+  Implementada en `proxy.ts` (Next.js 16 renombró `middleware.ts` a
+  `proxy.ts`; misma función) + sesión firmada con `jose` en una cookie
+  httpOnly
 
 ## Variables de entorno
 
@@ -55,8 +58,10 @@ el paso de generación de canción.
 
 Ver el orden de implementación en el brief del proyecto. Progreso actual:
 
-- [x] 1. Scaffold Next.js + Tailwind + deploy inicial a Vercel
-- [ ] 2. Middleware de auth con contraseña única
+- [x] 1. Scaffold Next.js + Tailwind (build verificado local; deploy a
+      Vercel pendiente — requiere importar el repo en vercel.com/new o
+      un token de Vercel CLI)
+- [x] 2. Auth con contraseña única (`proxy.ts` + `/api/login` + `/api/logout`)
 - [ ] 3. `lib/sgm-creative-rules.ts` con las reglas creativas
 - [ ] 4. Endpoint + UI de generación de letras (Claude API)
 - [ ] 5. Endpoint + UI de generación de canción (Apiframe) con polling
