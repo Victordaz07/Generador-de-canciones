@@ -63,7 +63,11 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       un token de Vercel CLI)
 - [x] 2. Auth con contraseña única (`proxy.ts` + `/api/login` + `/api/logout`)
 - [x] 3. `lib/sgm-creative-rules.ts` con las reglas creativas
-- [ ] 4. Endpoint + UI de generación de letras (Claude API)
+- [x] 4. Endpoint + UI de generación de letras (Claude API) — código
+      verificado con una llamada real a la API de Anthropic (llegó
+      correctamente, auth y manejo de errores funcionan); la respuesta
+      completa con contenido generado queda pendiente de confirmar
+      cuando la cuenta de `ANTHROPIC_API_KEY` tenga crédito activo
 - [ ] 5. Endpoint + UI de generación de canción (Apiframe) con polling
 - [ ] 6. Endpoint + UI de portada
 - [ ] 7. Panel de metadata y exportación
