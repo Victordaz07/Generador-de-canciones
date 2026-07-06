@@ -62,7 +62,7 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       Vercel pendiente — requiere importar el repo en vercel.com/new o
       un token de Vercel CLI)
 - [x] 2. Auth con contraseña única (`proxy.ts` + `/api/login` + `/api/logout`)
-- [ ] 3. `lib/sgm-creative-rules.ts` con las reglas creativas
+- [x] 3. `lib/sgm-creative-rules.ts` con las reglas creativas
 - [ ] 4. Endpoint + UI de generación de letras (Claude API)
 - [ ] 5. Endpoint + UI de generación de canción (Apiframe) con polling
 - [ ] 6. Endpoint + UI de portada
