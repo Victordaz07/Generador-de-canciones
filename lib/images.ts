@@ -18,7 +18,7 @@ export async function generateCoverImage(prompt: string): Promise<string> {
       Authorization: `Bearer ${getApiKey()}`,
     },
     body: JSON.stringify({
-      model: "dall-e-3",
+      model: "gpt-image-1",
       prompt,
       n: 1,
       size: "1024x1024",
@@ -28,7 +28,7 @@ export async function generateCoverImage(prompt: string): Promise<string> {
   const data = await res.json().catch(() => null);
 
   if (!res.ok) {
-    const message = data?.error?.message ?? `DALL-E respondió ${res.status}`;
+    const message = data?.error?.message ?? `La API de imágenes respondió ${res.status}`;
     throw new Error(message);
   }
 
@@ -40,5 +40,5 @@ export async function generateCoverImage(prompt: string): Promise<string> {
     return result.url as string;
   }
 
-  throw new Error("DALL-E no devolvió una imagen.");
+  throw new Error("La API de imágenes no devolvió una imagen.");
 }

@@ -28,7 +28,7 @@ Copia `.env.example` a `.env.local` y completa:
 ```
 ANTHROPIC_API_KEY=
 APIFRAME_API_KEY=
-IMAGE_API_KEY=      # API key de OpenAI (portadas vía DALL-E 3)
+IMAGE_API_KEY=      # API key de OpenAI (portadas vía gpt-image-1)
 SITE_PASSWORD=
 ```
 
@@ -86,12 +86,14 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       tras un job `completed`, revisa el log de Vercel (queda impreso
       el cuerpo crudo de la respuesta) y ajusta `fetchSongStatus` en
       `lib/apiframe.ts`
-- [x] 6. Endpoint + UI de portada (DALL-E 3, `lib/images.ts`) — probado
-      contra la API real en producción (Vercel). OpenAI ya no acepta el
-      parámetro `response_format` en `/v1/images/generations` (error
-      real: "Unknown parameter: 'response_format'"), así que se quitó;
-      ahora se acepta tanto `b64_json` como `url` en la respuesta, lo
-      que venga
+- [x] 6. Endpoint + UI de portada (`lib/images.ts`) — probado contra la
+      API real en producción (Vercel), corrigiendo dos cosas que
+      cambiaron desde que se escribió el código: OpenAI ya no acepta el
+      parámetro `response_format` en `/v1/images/generations` (se
+      quitó; ahora se acepta `b64_json` o `url`, lo que venga), y el
+      modelo `dall-e-3` ya no existe — reemplazado por `gpt-image-1`,
+      confirmado contra más de 20 ejemplos públicos actuales de la API
+      de imágenes de OpenAI
 - [x] 7. Panel de metadata y exportación — probado de punta a punta en
       navegador real (Playwright) con la respuesta de Claude simulada:
       título, escritura, género, BPM, signature sound y tags se

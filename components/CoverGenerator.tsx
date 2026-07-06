@@ -47,7 +47,7 @@ export function CoverGenerator({ prompt }: CoverGeneratorProps) {
 
       {imageDataUrl && (
         <div className="flex flex-col items-start gap-3">
-          {/* Imagen generada por DALL-E como data URL — no es una foto de usuario. */}
+          {/* Imagen generada por gpt-image-1 como data URL — no es una foto de usuario. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageDataUrl}
