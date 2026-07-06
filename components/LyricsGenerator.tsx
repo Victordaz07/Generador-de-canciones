@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { SongProposal } from "@/lib/types";
+import { SongGenerator } from "@/components/SongGenerator";
 
 const LANGUAGES = ["Español", "English"];
 
@@ -221,6 +222,14 @@ export function LyricsGenerator() {
             </ul>
           </div>
         </section>
+      )}
+
+      {proposal && (
+        <SongGenerator
+          lyrics={proposal.lyrics}
+          stylePrompt={proposal.suno_prompt}
+          title={proposal.title_en}
+        />
       )}
     </div>
   );

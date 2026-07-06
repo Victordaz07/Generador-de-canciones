@@ -68,7 +68,20 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       correctamente, auth y manejo de errores funcionan); la respuesta
       completa con contenido generado queda pendiente de confirmar
       cuando la cuenta de `ANTHROPIC_API_KEY` tenga crédito activo
-- [ ] 5. Endpoint + UI de generación de canción (Apiframe) con polling
+- [x] 5. Endpoint + UI de generación de canción (Apiframe) con polling —
+      **sin verificar con una llamada real**: `apiframe.pro` está
+      bloqueado por la política de red de este entorno de desarrollo, así
+      que `lib/apiframe.ts` sigue la convención pública documentada de
+      Apiframe (endpoint `/custom_generate`, campos `prompt`/`tags`/
+      `title`, polling vía `/fetch_task`), pero no se pudo confirmar
+      contra la API real. **Antes de usarlo en producción**, corre
+      `npm run dev` localmente (o después del deploy a Vercel, donde sí
+      hay red completa) con tu `APIFRAME_API_KEY` real y verifica el
+      endpoint y los nombres de campo contra tu dashboard de Apiframe —
+      ajusta las constantes en `lib/apiframe.ts` si difieren. Sí se
+      verificó localmente el manejo de errores (falta de API key,
+      body inválido, taskId faltante) con llamadas reales a nuestros
+      propios endpoints
 - [ ] 6. Endpoint + UI de portada
 - [ ] 7. Panel de metadata y exportación
 - [ ] 8. Pulido de UI/UX
