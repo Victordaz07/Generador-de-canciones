@@ -1,0 +1,65 @@
+# SGM Music Lab
+
+Herramienta interna de **Seeker Gospel Music (SGM)** para generar una
+canción completa (letra, style sheet, audio vía Suno y portada) desde una
+sola pantalla, sin saltar entre herramientas.
+
+Proyecto separado de `seekergospel.com` (Firebase). Este stack corre 100%
+en Vercel.
+
+## Stack
+
+- Next.js (App Router) + TypeScript + Tailwind CSS
+- Route Handlers (`app/api/**/route.ts`) como proxy server-side hacia
+  Claude API, Apiframe (Suno) y el proveedor de imágenes — ninguna API key
+  se expone al cliente
+- Sin base de datos en v1: estado en cliente durante la sesión;
+  histórico en `localStorage` (Vercel KV queda documentado como mejora
+  futura, no bloqueante)
+- Auth de contraseña única (`SITE_PASSWORD`), sin NextAuth/Firebase Auth
+
+## Variables de entorno
+
+Copia `.env.example` a `.env.local` y completa:
+
+```
+ANTHROPIC_API_KEY=
+APIFRAME_API_KEY=
+IMAGE_API_KEY=
+SITE_PASSWORD=
+```
+
+Todas se consumen solo en Route Handlers server-side.
+
+## Desarrollo local
+
+```bash
+npm install
+npm run dev
+```
+
+Abre [http://localhost:3000](http://localhost:3000).
+
+## Limitación conocida: edición de fragmentos en Suno
+
+La función **"Replace Section"** de Suno (editar solo un fragmento de una
+canción ya generada, sin regenerarla completa) **no existe como endpoint
+público en la API de Apiframe**. Esta herramienta no puede replicarla.
+
+Si necesitas editar solo un fragmento de una canción ya generada, usa
+[suno.com](https://suno.com) directamente — esa función no está
+disponible por API todavía. La UI de esta app muestra este mismo aviso en
+el paso de generación de canción.
+
+## Estado del proyecto
+
+Ver el orden de implementación en el brief del proyecto. Progreso actual:
+
+- [x] 1. Scaffold Next.js + Tailwind + deploy inicial a Vercel
+- [ ] 2. Middleware de auth con contraseña única
+- [ ] 3. `lib/sgm-creative-rules.ts` con las reglas creativas
+- [ ] 4. Endpoint + UI de generación de letras (Claude API)
+- [ ] 5. Endpoint + UI de generación de canción (Apiframe) con polling
+- [ ] 6. Endpoint + UI de portada
+- [ ] 7. Panel de metadata y exportación
+- [ ] 8. Pulido de UI/UX
