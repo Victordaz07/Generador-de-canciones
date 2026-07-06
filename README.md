@@ -90,6 +90,10 @@ Ver el orden de implementación en el brief del proyecto. Progreso actual:
       de descarga. Verifica localmente o en Vercel con tu key real. Sí
       se verificó el manejo de errores propios (falta de API key,
       prompt vacío) con llamadas reales
-- [ ] 6. Endpoint + UI de portada
-- [ ] 7. Panel de metadata y exportación
+- [x] 7. Panel de metadata y exportación — probado de punta a punta en
+      navegador real (Playwright) con la respuesta de Claude simulada:
+      título, escritura, género, BPM, signature sound y tags se
+      muestran correctamente; "Copiar metadata" copia el texto esperado
+      al portapapeles y "Descargar letra + style sheet" genera el
+      archivo `.md` sin errores de consola
 - [ ] 8. Pulido de UI/UX

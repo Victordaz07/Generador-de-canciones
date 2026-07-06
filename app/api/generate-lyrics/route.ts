@@ -9,11 +9,27 @@ const RESPONSE_SCHEMA = {
   properties: {
     title_es: { type: "string" },
     title_en: { type: "string" },
+    scripture_reference: {
+      type: "string",
+      description:
+        "Referencia escritural confirmada o sugerida (ej. 'Lucas 5:1-11'), nunca el nombre del personaje.",
+    },
     lyrics: { type: "string" },
     music_bible: {
       type: "string",
       description:
         "Music Bible / style sheet en texto legible: género, BPM, instrumentos, energía y signature sound.",
+    },
+    genre: { type: "string", description: "Género musical principal, para metadata." },
+    bpm: { type: "integer", description: "BPM, para metadata." },
+    signature_sound: {
+      type: "string",
+      description: "Signature sound del personaje en una frase corta, para metadata.",
+    },
+    youtube_tags: {
+      type: "array",
+      items: { type: "string" },
+      description: "5-10 tags sugeridos para YouTube.",
     },
     suno_prompt: { type: "string" },
     cover_prompt: { type: "string" },
@@ -33,8 +49,13 @@ const RESPONSE_SCHEMA = {
   required: [
     "title_es",
     "title_en",
+    "scripture_reference",
     "lyrics",
     "music_bible",
+    "genre",
+    "bpm",
+    "signature_sound",
+    "youtube_tags",
     "suno_prompt",
     "cover_prompt",
     "doctrinal_checklist",

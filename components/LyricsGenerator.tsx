@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { SongProposal } from "@/lib/types";
 import { SongGenerator } from "@/components/SongGenerator";
 import { CoverGenerator } from "@/components/CoverGenerator";
+import { MetadataPanel } from "@/components/MetadataPanel";
 
 const LANGUAGES = ["Español", "English"];
 
@@ -147,6 +148,17 @@ export function LyricsGenerator() {
           </div>
 
           <div className="flex flex-col gap-1">
+            <label className="text-sm text-zinc-700 dark:text-zinc-300">
+              Escritura principal
+            </label>
+            <input
+              value={proposal.scripture_reference}
+              onChange={(e) => updateProposal("scripture_reference", e.target.value)}
+              className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-black dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
             <label className="text-sm text-zinc-700 dark:text-zinc-300">Letra</label>
             <textarea
               value={proposal.lyrics}
@@ -234,6 +246,8 @@ export function LyricsGenerator() {
       )}
 
       {proposal && <CoverGenerator prompt={proposal.cover_prompt} />}
+
+      {proposal && <MetadataPanel proposal={proposal} character={character} />}
     </div>
   );
 }
