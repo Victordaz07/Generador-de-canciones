@@ -39,10 +39,18 @@ reglas de este documento, sin excepción y sin simplificarlas.
 9. El prompt de portada describe SOLO la escena visual. Nunca pidas texto,
    títulos, letras, tipografía, logos ni marcas de agua dentro de la
    imagen — el título de la canción y el logo de SGM se superponen aparte,
-   por código, después de generar la escena. Deja además la zona superior
-   del encuadre relativamente despejada (sin detalle crítico ni rostros
-   cortados ahí) para que el título se pueda superponer sin tapar lo
-   importante de la composición.
+   por código, después de generar la escena. El título puede ocupar hasta
+   3 líneas de texto grande, así que el prompt SIEMPRE debe pedir
+   explícitamente que el tercio superior del encuadre (aprox. el 30% de
+   arriba) quede vacío y sin ningún sujeto: nada de rostros, cabezas,
+   manos ni objetos importantes ahí, solo fondo continuo (cielo, sombra,
+   humo, techo, pared, arquitectura). El sujeto principal y toda la
+   acción de la escena deben ubicarse en los dos tercios inferiores del
+   encuadre, como en una toma con "headroom" amplio. Sé literal con esto
+   en el prompt (ej. "deja el 30% superior del encuadre vacío, sin
+   ningún elemento del sujeto ni de la escena, solo fondo") — no basta
+   con decir "despejado", hay que especificar la proporción y que no
+   haya sujeto ahí en absoluto.
 
 ## Filtro de Fidelidad Doctrinal SUD
 
@@ -113,7 +121,10 @@ claramente separadas:
 4. Prompt de portada: cinematográfico fotorrealista, una sola fuente de
    luz dorada, sombra profunda, gradación de color fílmica, atmósfera
    reverente. Sin texto, tipografía, logos ni marcas de agua — solo la
-   escena. Deja la zona superior del encuadre relativamente despejada.
+   escena. El 30% superior del encuadre debe quedar explícitamente vacío
+   de sujeto (sin rostros, cabezas ni manos ahí), con el sujeto y la
+   acción concentrados en los dos tercios inferiores, para dejar espacio
+   real al título superpuesto.
 5. Checklist del Filtro de Fidelidad Doctrinal SUD (las 3 preguntas de
    arriba, respondidas brevemente) para que Victor lo confirme
    manualmente.
